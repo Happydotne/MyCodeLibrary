@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>主页</title>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+	<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+</head>
+<body>
+<div>
+    <table class="table table-hover">
+    <caption></caption>
+    <thead>
+        <tr>
+            <th>名称</th>
+            <th>Email</th>
+            <th>密码</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for dt in data %}
+        <tr>
+        <input type="hidden" name="id" class="id" value="{{ dt.id }}">
+        <td>{{ dt.name }}</td>
+        <td>{{ dt.email }}</td>
+        <td>{{ dt.password }}</td>
+        <td>
+            <input type="button" class="btn btn-primary edit" value="修改">
+            <input type="button" class="btn btn-primary delete"  value="删除">
+        </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    </table>
+    <input class="btn btn-default" type="button" id="add" value="添加">
+</div>
+</body>
+<script>
+    $('#add').on('click',function(){
+        console.log("456")
+        window.location.href="/showAdd/";
+    })
+    $('.edit').on('click',function(){
+        id = $(this).parent().siblings().val()
+        alert(id)
+        $.ajax({
+            url: "/showEdit",     // /test 这个就是你后台的方法路由，或者说虚拟地址。就是controller里的方法
+            type: "GET",   //以post方式请求
+            data:{'id':id},
+            success: function(data){
+                          window.location.href="/showEdit?id="+id;
+                        },
+            error: function(xhr, type) {
+                        console.log(456)
+               }
+        });
+    })
+    $('.delete').on('click',function(){
+        id = $(this).parent().siblings().val()
+        $.ajax({
+            url: "/deleteData",     // /test 这个就是你后台的方法路由，或者说虚拟地址。就是controller里的方法
+            type: "post",   //以post方式请求
+            data:{'id':id},
+            success: function(data){
+                          window.location.reload()
+                        },
+            error: function(xhr, type) {
+                        console.log(456)
+               }
+        });
+    })
+
+</script>
+</html>
