@@ -71,6 +71,7 @@ def deleteData(request):
             id = request.POST.get("id")
             # print("woowowow")
             # print(id)
+            print("sssssssssssss")
             User.objects.filter(pk=id).delete()
     except Exception as e:
         raise
